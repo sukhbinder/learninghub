@@ -1,5 +1,5 @@
 from django.urls import path
-from spelling.views import home_view, index_view, WordUpdateView, WordDeleteView, ListWordsView,ListWordsViewbySubject, subject_view, upload_file
+from spelling.views import home_view, index_view, test_view, WordUpdateView, WordDeleteView, ListWordsView,ListWordsViewbySubject, subject_view, upload_file
 
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('subjects', subject_view, name="subjects"),
     path('upload', upload_file, name="upload"),
     path('<int:pk>', home_view, name="home"),
+    path('test/<int:sub_id>', test_view, name="test-view"),
     
 ]

@@ -1,0 +1,94 @@
+{% extends 'spelling/base.html' %}
+
+{% block title %}Learn Spellings{% endblock %}
+
+{% block content %}
+<div id="test_page" class="row justify-content-center bg-white p-5 shadow rounded">
+
+
+    <header class="text-center pb-5">
+        <h2 class="h2">Test!</h2>
+    </header>
+    {% if data %}
+
+    <div id="collapseExample">
+    <div id="status">
+        <p id="count">0</p>
+      </div>
+    </div>
+
+        {% for exp in data %}
+ 
+
+        <div class="card border-secondary mb-3" >
+            <div class="card-header">Question </div>
+            <div class="card-body text-secondary">
+                <h5 class="card-title"> {{exp.0}}</h5>
+                <p class="card-text" id="collapseExample"> {{exp.1}}  <input type="checkbox"></p>
+            </div>
+          </div>
+
+        {% endfor %}
+ 
+
+
+    {% else %}
+
+    <p>There are no data in the library.</p>
+    {% endif %}
+
+
+</div>
+
+
+
+<p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+     Check Answers
+    </a>
+  </p>
+  <div class="collapse" id="collapseExamplae">
+    <div class="card card-body">
+      
+        {% if data %}
+    <table>
+        {% for exp in data %}
+        <tr>
+            <td>{{exp.1}}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+    <p>There are no data in the library.</p>
+    {% endif %}
+    
+    </div>
+  </div>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+<!-- <script type="text/javascript">
+    $(document).ready(function () {
+      $("input[type=checkbox]").each(function () {
+        $(this).change(updateCount);
+      });
+
+      updateCount();
+
+      function updateCount () {
+        var count = $("input[type=checkbox]:checked").size();
+
+        $("#count").text(count);
+        $("#status").toggle(count > 0);
+      };
+    });
+  </script> -->
+
+{% endblock %}

@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from spelling.serializers import WordSerializer
 from spelling.models import Word, Subject
 from .forms import UploadFileForm
+import numpy as np
 # Create your views here.
 
 
@@ -55,6 +56,12 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'spelling/upload.html', {'form': form})
 
+
+def test_view(request, sub_id=1, num=10):
+    data = np.array([(obj.question, obj.answer) for obj in Word.objects.all() if obj.subject.id == sub_id])
+    np.random.shuffle(data)
+    data = data[:num].tolist()
+    return render(request, 'spelling/test.html', {"data": data})
 
 class WordUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Word.objects.all()
