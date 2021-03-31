@@ -61,7 +61,7 @@
                 <div class="card-body text-dark">
                     
                     <div class="form-group"  v-show="!this.task.isvoiceonly">
-                        <label>Question:</label> <h2> {{ this.task.question }} </h2> 
+                        <label>Question:</label> <input type="text" class="form-control form-control-sm" :value="get_question"> {{get_question}}  </input>
                        
                     </div>
                     
@@ -89,6 +89,9 @@
             },
             check_show() {
                 return moment().diff(this.task.due_date, 'hours');
+            },
+            get_question() {
+                return this.task.question;
             },
         },
 

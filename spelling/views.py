@@ -37,8 +37,8 @@ def index_view(request):
 
 
 def subject_view(request):
-    a = list(set([(obj.subject.id, str(obj.subject.name))
-                  for obj in Word.objects.all()]))
+    a = list(set([(obj.id, str(obj.name))
+                  for obj in Subject.objects.all()]))
     return JsonResponse(a, safe=False)
 
 
