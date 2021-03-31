@@ -9,12 +9,16 @@
     <header class="text-center pb-5">
         <h2 class="h2">Review!</h2>
     </header>
-
+    {% if data %}
     <table>
+        {% for exp in data %}
         <tr>
-            <td> <a href="1?subject=1">Barun Hindi Review</a></td>
+            <td> <a href={{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td>
         </tr>
-        <tr>
+
+        {% endfor %}
+
+        <!-- <tr>
             <td> <a href="2?subject=2">XXXXXXX</a></td>
         </tr>
         <tr>
@@ -22,9 +26,13 @@
         </tr>
         <tr>
             <td> <a href="4?subject=4">Barun Spelling</a></td>
-        </tr>
+        </tr> -->
     </table>
 
+    {% else %}
+
+    <p>There are no data in the library.</p>
+    {% endif %}
 
 
 </div>

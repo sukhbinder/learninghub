@@ -33,7 +33,10 @@ def home_view(request,pk):
     return render(request, 'spelling/home.html', {"data": "Hello World"})
 
 def index_view(request):
-    return render(request, 'spelling/index.html', {"data": "Hello World"})
+    data = list(set([(obj.id, str(obj.name))
+                  for obj in Subject.objects.all()]))
+
+    return render(request, 'spelling/index.html', {"data": data})
 
 
 def subject_view(request):
