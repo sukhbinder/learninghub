@@ -113,7 +113,9 @@
                 this.task.due_date = moment().add(NUMBERS[this.task.inum], 'hours').format();
             },
             checkans() {
-                if (this.task.answer.toUpperCase() === this.useranswer.toUpperCase()) {
+                    // console.log(this.task.answer.toUpperCase().trim())
+                    // console.log(this.useranswer.toUpperCase().trim())
+                if (this.task.answer.toUpperCase().trim() === this.useranswer.toUpperCase().trim()) {
                     this.speakthisin("Thats Correct")
                     this.increment();
                     // console.log(moment().diff(this.task.due_date, 'hours'));
@@ -123,6 +125,7 @@
                     this.completeTask();
                 }
                 else {
+
                     ans = this.task.answer
                     ans = ans.replace(/___/g, "blank")
                     msg = "Thats wrong, The answer is  " + ans
