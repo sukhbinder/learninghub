@@ -57,11 +57,11 @@ def upload_file(request):
     return render(request, 'spelling/upload.html', {'form': form})
 
 
-def test_view(request, sub_id=1, num=10):
-    data = np.array([(obj.question, obj.answer) for obj in Word.objects.all() if obj.subject.id == sub_id])
-    np.random.shuffle(data)
-    data = data[:num].tolist()
-    return render(request, 'spelling/test.html', {"data": data})
+def test_view(request, pk):
+    # data = np.array([(obj.question, obj.answer) for obj in Word.objects.all() if obj.subject.id == sub_id])
+    # np.random.shuffle(data)
+    # data = data[:num].tolist()
+    return render(request, 'spelling/test.html', {"data": "Hello World"})
 
 class WordUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Word.objects.all()
@@ -91,3 +91,5 @@ class ListWordsViewbySubject(generics.ListCreateAPIView):
             return Word.objects.filter(subject=subject)
         else:
             return Word.objects.all()
+
+

@@ -19,7 +19,7 @@
 
         <div v-else class="row">
             <div class="row" v-if="task_length <= 0">
-                No of words left, Please checkback latter!
+                Nothing to review now, Please checkback latter!
             </div>
             <div class="row">
                 <question-item v-for="(task, index) in tasks" :index=index :task=task :key=task.id></question-item>

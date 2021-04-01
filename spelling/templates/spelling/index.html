@@ -44,7 +44,21 @@
         <h2 class="h2">Test!</h2>
     </header>
 
+    {% if data %}
+    <table>
+        {% for exp in data %}
+        <tr>
+            <td> <a href=test/{{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td>
+        </tr>
 
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+    <p>There are no data in the library.</p>
+    {% endif %}
 
 
 </div>

@@ -3,92 +3,169 @@
 {% block title %}Learn Spellings{% endblock %}
 
 {% block content %}
-<div id="test_page" class="row justify-content-center bg-white p-5 shadow rounded">
-
-
+<div id="test-vue-app" class="row justify-content-center bg-white p-5 shadow rounded">
     <header class="text-center pb-5">
         <h2 class="h2">Test!</h2>
     </header>
-    {% if data %}
 
-    <div id="collapseExample">
-    <div id="status">
-        <p id="count">0</p>
-      </div>
+
+    <div v-if="errored">
+        <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
     </div>
 
-        {% for exp in data %}
- 
+    <div v-else>
+        <div v-if="loading">Loading...</div>
 
-        <div class="card border-secondary mb-3" >
-            <div class="card-header">Question </div>
-            <div class="card-body text-secondary">
-                <h5 class="card-title"> {{exp.0}}</h5>
-                <p class="card-text" id="collapseExample"> {{exp.1}}  <input type="checkbox"></p>
+
+        <div v-else class="row">
+            <div class="row" v-if="task_length <= 0">
+                Nothing to review now, Please checkback latter!
             </div>
-          </div>
+            <div class="row">
+                <test-item v-for="(task, index) in tasks" :index=index :task=task :key=task.id></test-item>
 
-        {% endfor %}
- 
+            </div>
 
-
-    {% else %}
-
-    <p>There are no data in the library.</p>
-    {% endif %}
-
+        </div>
+        
+    </div>
 
 </div>
-
-
-
-<p>
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-     Check Answers
-    </a>
-  </p>
-  <div class="collapse" id="collapseExamplae">
-    <div class="card card-body">
-      
-        {% if data %}
-    <table>
-        {% for exp in data %}
-        <tr>
-            <td>{{exp.1}}</td>
-        </tr>
-
-        {% endfor %}
-
-    </table>
-
-    {% else %}
-
-    <p>There are no data in the library.</p>
-    {% endif %}
-    
-    </div>
-  </div>
-
-
+</div>
+<div class="row text-center py-2">
+    <small>
+        <a href="http:\\sukhbindersingh.com" class="text-muted">sukhbinder</a>
+    </small>
+</div>
 
 {% endblock %}
 
+
 {% block javascript %}
-<!-- <script type="text/javascript">
-    $(document).ready(function () {
-      $("input[type=checkbox]").each(function () {
-        $(this).change(updateCount);
-      });
+<script>
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 
-      updateCount();
+    var NUMBERS = [1, 8, 20, 40, 72, 180, 360, 720]
 
-      function updateCount () {
-        var count = $("input[type=checkbox]:checked").size();
+    Vue.component('test-item', {
+        delimiters: ["[[", "]]"],
+        props: {
+            task: {
+                type: Object,
+                required: true,
+            }
+        },
+        template: `
+        <div>
+            <div class="card border-dark mb-3">
+                <div class="card-body text-dark">
+                    
+                    <div class="form-group" >
+                        <label>Question:</label> <input type="text" class="form-control form-control-sm" :value="get_question"> {{get_question}}  </input>
+                        <a href="#" class="card-link" v-on:click="hideForm" ><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="form-group"  v-show="isEditing">
+                        <label>Answer</label>
+                        <input type="text" class="form-control form-control-sm" :value="get_answer"> 
+                        <i class="fa fa-check-circle" aria-hidden="true"></i><i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    `,
+        data() {
+            return {
+                isEditing: false,
+                useranswer: "",
+                activetask: 0,
+            };
+        },
+        computed: {
+            task_length() {
+                return this.tasks.length;
+            },
+            get_question() {
+                return this.task.question;
+            },
+            get_answer(){
+              return this.task.answer
+            }
+        },
 
-        $("#count").text(count);
-        $("#status").toggle(count > 0);
-      };
+        methods: {
+
+            showForm() {
+                this.isEditing = true;
+            },
+            hideForm() {
+                this.isEditing =! this.isEditing;
+            },
+        },
     });
-  </script> -->
 
+
+
+      let app = new Vue({
+        'el': "#test-vue-app",
+        'data': {
+          "loading": false,
+          tasks: [],
+          errored: false,
+          subject_id: 1,
+        },
+        created() {
+          let urlParams = new URLSearchParams(window.location.search);
+          // console.log(urlParams.has('subject'));
+          // console.log(urlParams.get('subject'));
+          if (urlParams.has('subject')) {
+            this.subject_id = urlParams.get('subject')
+          }
+
+        },
+        computed: {
+          task_length: function () {
+            return this.tasks.length;
+          }
+        },
+        methods: {
+          shuffleArray: function (array) {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+            }
+          },
+
+
+          remove: function (id) {
+            this.tasks = this.tasks.filter((e) => e.id !== id)
+          },
+          fetchTasks() {
+            axios
+              .get('/spelling/subject/' + this.subject_id)
+              .then(response => {
+                data = response.data
+                // console.log(data);
+                this.shuffleArray(data);
+                this.tasks = data.slice(0,10);
+                // console.log(this.tasks);
+              })
+              .catch(error => {
+                console.log(error);
+                this.errored = true
+              })
+              .finally(() => this.loading = false)
+          }
+        },
+        mounted() {
+          this.fetchTasks();
+        },
+      });
+    
+
+    
+
+
+</script>
 {% endblock %}
