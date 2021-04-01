@@ -14,7 +14,7 @@ def handle_uploaded_file(file):
     sub_dict = {sub.name: sub for sub in Subject.objects.all()}
     first_line = None
     for line in file:
-        line = str(line.decode("ascii")).strip()
+        line = str(line.decode("ascii")).strip()    
         if first_line is None:
             first_line = line
             assert first_line in sub_dict.keys(),  "{} Subject not listed in {}".format(
@@ -51,7 +51,7 @@ def upload_file(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('spelling/')
+            return HttpResponseRedirect('/')
     else:
         form = UploadFileForm()
     return render(request, 'spelling/upload.html', {'form': form})
