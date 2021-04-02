@@ -10,14 +10,16 @@
         <h2 class="h2">Review!</h2>
     </header>
     {% if data %}
-    <table>
+    <!-- <table> -->
+        <div class="list-group">
         {% for exp in data %}
-        <tr>
-            <td> <a href={{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td>
-        </tr>
+        <!-- <tr> -->
+            <!-- <td> <a href={{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td> -->
+            <a href={{exp.0}}?subject={{exp.0}} class="list-group-item list-group-item-action list-group-item-success">{{exp.1}}</a>
+        <!-- </tr> -->
 
         {% endfor %}
-
+        </div>
         <!-- <tr>
             <td> <a href="2?subject=2">XXXXXXX</a></td>
         </tr>
@@ -27,7 +29,7 @@
         <tr>
             <td> <a href="4?subject=4">Barun Spelling</a></td>
         </tr> -->
-    </table>
+    <!-- </table> -->
 
     {% else %}
 
@@ -45,15 +47,17 @@
     </header>
 
     {% if data %}
-    <table>
+    <!-- <table> -->
+        <div class="list-group">
         {% for exp in data %}
-        <tr>
-            <td> <a href=test/{{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td>
-        </tr>
+        <!-- <tr> -->
+            <!-- <td> <a href=test/{{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td> -->
+            <a href=test/{{exp.0}}?subject={{exp.0}} class="list-group-item list-group-item-action list-group-item-primary">{{exp.1}}</a>
+        <!-- </tr> -->
 
         {% endfor %}
-
-    </table>
+    </div>
+    <!-- </table> -->
 
     {% else %}
 
