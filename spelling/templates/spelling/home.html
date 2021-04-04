@@ -59,17 +59,17 @@
         <div>
             <div class="card border-dark mb-3" v-show="check_show>0">
                 <div class="card-body text-dark">
-                    
+
                     <div class="form-group"  v-show="!this.task.isvoiceonly">
                         <label>Question:</label> <input type="text" class="form-control form-control-sm" :value="get_question"> {{get_question}}  </input>
-                       
+
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Answer</label>
-                        <input type="text" class="form-control form-control-sm" v-model="useranswer" v-on:click="speakthis" v-on:keyup.enter="checkans"> 
+                        <input type="text" class="form-control form-control-sm" v-model="useranswer" v-on:click="speakthis" v-on:keyup.enter="checkans">
                     </div>
-                    
+
                     <a href="javascript:void(0);" class="card-link" v-on:click="speakthis" ><i class="fa fa-microphone"></i></a>
 
                 </div>
@@ -223,11 +223,19 @@
                 // this.tasks.splice(index, 1);
                 this.tasks = this.tasks.filter((e) => e.id !== id)
             },
+            shuffleArray: function (array) {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+            }
+          },
             fetchTasks() {
                 axios
                     .get('/spelling/subject/' + this.subject_id)
                     .then(response => {
-                        this.tasks = response.data
+                        data = response.data;
+                        this.shuffleArray(data);
+                        this.tasks = data;
                         // console.log(this.tasks)
                     })
                     .catch(error => {
