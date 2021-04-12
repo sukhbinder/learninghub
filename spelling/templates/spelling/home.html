@@ -128,6 +128,9 @@
 
                     ans = this.task.answer
                     ans = ans.replace(/___/g, "blank")
+                    if (this.task.isvoiceonly) {
+                        ans = ans.split('').join(' ');
+                    }
                     msg = "Thats wrong, The answer is  " + ans
                     this.decrement()
                     this.speakthisin(msg)
