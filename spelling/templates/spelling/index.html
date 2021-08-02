@@ -12,7 +12,7 @@
     {% if data %}
     <!-- <table> -->
         <div class="list-group">
-        {% for exp in data %}
+        {% for exp in data|dictsort:1  %}
         <!-- <tr> -->
             <!-- <td> <a href={{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td> -->
             <a href={{exp.0}}?subject={{exp.0}} class="list-group-item list-group-item-action list-group-item-success">{{exp.1}}</a>
@@ -49,7 +49,7 @@
     {% if data %}
     <!-- <table> -->
         <div class="list-group">
-        {% for exp in data %}
+        {% for exp in data|dictsort:1 %}
         <!-- <tr> -->
             <!-- <td> <a href=test/{{exp.0}}?subject={{exp.0}}>{{exp.1}}</a></td> -->
             <a href=test/{{exp.0}}?subject={{exp.0}} class="list-group-item list-group-item-action list-group-item-primary">{{exp.1}}</a>
