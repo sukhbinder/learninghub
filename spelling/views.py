@@ -28,8 +28,14 @@ def get_sub_voice_chapter(line):
 def handle_uploaded_file(file):
     sub_dict = {sub.name: sub for sub in Subject.objects.all()}
     first_line = None
+    not_added = []
     for line in file:
-        line = str(line.decode("ascii")).strip()
+        try:
+            line = str(line.decode("ascii")).strip()
+        except Exception as ex:
+            print(line)
+            not_added.append(line)
+            continue
         if first_line is None:
             first_line, voiceonly, chapter = get_sub_voice_chapter(line)
             assert first_line in sub_dict.keys(),  "{} Subject not listed in {}".format(
@@ -46,6 +52,11 @@ def handle_uploaded_file(file):
             print(ex)
             pass
 
+    if not_added:
+        print("Following lines are not added:")
+        for aline in not_added:
+            print(aline)
+        raise IOError(" /n".join(not_added))
 
 def home_view(request,pk):
     return render(request, 'spelling/home.html', {"data": "Hello World"})
